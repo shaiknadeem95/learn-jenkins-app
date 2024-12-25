@@ -2,13 +2,13 @@ pipeline {
     agent any
 
     stages {
-        agent{
-            docker{
-                image 'node:20-alphine'
-                reuseNode true
-            }
-        }
         stage('Build') {
+            agent{
+                docker{
+                    image 'node:20-alphine'
+                    reuseNode true
+                }
+            }
             steps {
                 sh ''' 
                  echo "starting the build file"
@@ -19,6 +19,12 @@ pipeline {
         }
         stage('Test')
         {
+            agent{
+                docker{
+                    image 'node:20-alphine'
+                    reuseNode true
+                }
+            }
             steps{
                 sh '''
                 test -f build/index.html
@@ -27,8 +33,8 @@ pipeline {
                 '''
             }
         }
-        post {
+    }
+    post {
             always junit 'test-results/junit.xml'
-        }
     }
 }
