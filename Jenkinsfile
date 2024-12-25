@@ -5,13 +5,15 @@ pipeline {
         stage('Build') {
             agent{
                 docker{
-                    image 'node:20-alphine'
+                    image 'node:20-alpine'
                     reuseNode true
                 }
             }
             steps {
                 sh ''' 
                  echo "starting the build file"
+                 node --version
+                 npm --version
                  npm ci
                  npm run build
                 '''
@@ -21,7 +23,7 @@ pipeline {
         {
             agent{
                 docker{
-                    image 'node:20-alphine'
+                    image 'node:20-alpine'
                     reuseNode true
                 }
             }
